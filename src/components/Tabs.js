@@ -8,8 +8,7 @@ import SwipeableViews from 'react-swipeable-views';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import { train, test } from './lvq'
+import { train } from './lvq'
 
 
 function TabPanel(props) {
@@ -67,7 +66,8 @@ export default function FullWidthTabs() {
     }
 
 
-    const { classType, bobotAkhir, vectors, distances, targets, pred } = train(data.vector, data.a, data.epoch)
+    // const { classType, bobotAkhir, vectors, distances, targets, pred } = train(data.vector, data.a, data.epoch)
+    const bobotAkhir = train(data.vector, data.a, data.epoch)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

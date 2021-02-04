@@ -48,7 +48,8 @@ function train(inputs, a, epoch) {
         bobotAkhir.push(bobotLama.map(b => b.toFixed(3)))
     });
 
-    return { classType, bobotAkhir, vectors, distances, targets, pred }
+    // return { classType, bobotAkhir, vectors, distances, targets, pred }
+    return bobotAkhir
 }
 
 
