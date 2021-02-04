@@ -1,11 +1,6 @@
 import { useState } from "react"
 
 const Panel = ({ titles, data }) => {
-    const [count, setCount] = useState(0)
-    const trainClicked = () => {
-        setCount(count + 1)
-    }
-    console.log(count);
     return (
         <div
             style={{
@@ -75,7 +70,7 @@ const Panel = ({ titles, data }) => {
                     </div>
                 ))}
                 {/* INPUT BUTTON */}
-                {titles.includes("Vector") ?
+                {/* {titles.includes("Vector") ?
                     (<button
                         style={{
                             backgroundColor: 'transparent',
@@ -91,7 +86,7 @@ const Panel = ({ titles, data }) => {
                     >
                         <i class="fas fa-plus"></i>
                     </button>)
-                    : ''}
+                    : ''} */}
             </div>
         </div >
     )

@@ -1,8 +1,9 @@
-function train(inputs, a) {
+function train(inputs, a, epoch) {
     let classType = []
     let w = []
     let vectors = []
     let targets = []
+    let bobotAkhir = []
 
     // inputs ==> classType, w, vectors, targets
     for (const [index, input] of inputs.entries()) {
@@ -17,7 +18,6 @@ function train(inputs, a) {
         targets.push(i[1])
     }
 
-    let epoch = 10
     while (epoch) {
         var pred = []
         for (let index = 0; index < vectors.length; index++) {
@@ -43,7 +43,12 @@ function train(inputs, a) {
         a *= 0.2
         epoch--
     }
-    return {classType,w,vectors,distances,targets,pred}
+
+    w.forEach(bobotLama => {
+        bobotAkhir.push(bobotLama.map(b => b.toFixed(3)))
+    });
+
+    return { classType, bobotAkhir, vectors, distances, targets, pred }
 }
 
 

@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
+import { train, test } from './lvq'
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -46,6 +48,26 @@ export default function FullWidthTabs() {
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+
+    const data = {
+        vector: [
+            [[1, 1, 0, 0, 1, 0], 1],
+            [[0, 1, 1, 0, 1, 0], 1],
+            [[0, 0, 1, 0, 0, 1], 2],
+            [[0, 0, 1, 1, 1, 0], 1],
+            [[0, 1, 0, 0, 0, 1], 2],
+            [[1, 0, 1, 0, 1, 1], 2],
+            [[0, 0, 1, 1, 0, 0], 1],
+            [[1, 1, 0, 1, 0, 0], 1],
+            [[1, 0, 0, 1, 0, 1], 2],
+            [[0, 1, 1, 1, 1, 1], 1],
+        ],
+        a: 0.04,
+        epoch: 1000,
+    }
+
+
+    const { classType, bobotAkhir, vectors, distances, targets, pred } = train(data.vector, data.a, data.epoch)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -85,31 +107,19 @@ export default function FullWidthTabs() {
                         {/* VECTOR INPUT */}
                         <Panel
                             titles={["Vector", "Class"]}
-                            data={[
-                                [[1, 1, 0, 0, 1, 0], 1],
-                                [[0, 1, 1, 0, 1, 0], 1],
-                                [[0, 0, 1, 0, 0, 1], 2],
-                                [[0, 0, 1, 1, 1, 0], 1],
-                                [[0, 1, 0, 0, 0, 1], 2],
-                                [[1, 0, 1, 0, 1, 1], 2],
-                                [[0, 0, 1, 1, 0, 0], 1],
-                                [[1, 1, 0, 1, 0, 0], 1],
-                                [[1, 0, 0, 1, 0, 1], 2],
-                                [[0, 1, 1, 1, 1, 1], 1],
-                            ]}
+                            data={data.vector}
                         />
                         <Panel
                             titles={["Alfa", "Epoch", "Error"]}
-                            data={[[0.4, 100, 0.004]]}
+                            data={[[data.a, data.epoch, 0.004]]}
                         />
                         <Panel
                             titles={["Bobot Akhir"]}
-                            data={[
-                                [0.42, 0.78, 0.33, 0.24, 0.52, 0.99],
-                                [0.42, 0.78, 0.33, 0.24, 0.52, 0.99],
-                            ]}
+                            data={bobotAkhir}
                         />
-                        <Button variant="contained" color="primary" style={{ width: '100%', textAlign: "center", border: '10px' }}>TRAIN</Button>
+                        {/* <Button variant="contained" color="primary" style={{ width: '100%', textAlign: "center", border: '10px' }}>TRAIN</Button> */}
+
+
                     </TabPanel>
 
                     {/* TESTING */}
