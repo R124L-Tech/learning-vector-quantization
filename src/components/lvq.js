@@ -1,9 +1,9 @@
 function train(inputs, a, epoch) {
+    let bobotAkhir = []
     let classType = []
     let w = []
     let vectors = []
     let targets = []
-    let bobotAkhir = []
 
     // inputs ==> classType, w, vectors, targets
     for (const [index, input] of inputs.entries()) {
@@ -53,8 +53,24 @@ function train(inputs, a, epoch) {
 }
 
 
-function test(params) {
+function test(vectors, weights) {
+    let prediction = 0
 
+    var distances = []
+
+    // Menghitung Jarak vector ke setiap weights
+    for (const weight of weights) {
+        let sum = 0
+        for (const [i, v] of vectors.entries()) {
+            sum += Math.pow(v - weight[i], 2)
+        }
+        distances.push(parseFloat(Math.sqrt(sum).toFixed(4)))
+    }
+
+    // Membuat prediksi berdasarkan jarak terdekat
+    prediction = distances.indexOf(Math.min(...distances)) + 1
+
+    return prediction
 }
 
 export { train, test }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import { train } from './lvq'
-
+import Modal from './Modal'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -46,9 +46,8 @@ const useStyles = makeStyles((theme) => ({
 export default function FullWidthTabs() {
     const classes = useStyles();
     const theme = useTheme();
-    const [value, setValue] = React.useState(0);
-
-    const data = {
+    const [value, setValue] = useState(0);
+    const dataTrain = {
         vector: [
             [[1, 1, 0, 0, 1, 0], 1],
             [[0, 1, 1, 0, 1, 0], 1],
@@ -62,12 +61,13 @@ export default function FullWidthTabs() {
             [[0, 1, 1, 1, 1, 1], 1],
         ],
         a: 0.04,
-        epoch: 1000,
+        epoch: 10,
     }
 
+    const [dataTest, setDataTest] = useState(dataTrain.vector)
 
-    // const { classType, bobotAkhir, vectors, distances, targets, pred } = train(data.vector, data.a, data.epoch)
-    const bobotAkhir = train(data.vector, data.a, data.epoch)
+    // const { classType, bobotAkhir, vectors, distances, targets, pred } = train(dataTrain.vector, dataTrain.a, dataTrain.epoch)
+    const bobotAkhir = train(dataTrain.vector, dataTrain.a, dataTrain.epoch)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -77,14 +77,22 @@ export default function FullWidthTabs() {
         setValue(index);
     };
 
+    // Modal Toggler
+    const [displayModal, setDisplayModal] = useState('none')
+
     return (
         <div className={classes.root}>
             <AppBar position="static" color="default">
+                <Modal
+                    display={displayModal}
+                    onClick={() => setDisplayModal('none')}
+                    updateDataTest={setDataTest}
+                    weights={bobotAkhir}
+                />
                 <Tabs
                     value={value}
                     onChange={handleChange}
                     indicatorColor="primary"
-                    // textColor="primary"
                     variant="fullWidth"
                     aria-label="full width tabs example"
                     style={{
@@ -107,18 +115,16 @@ export default function FullWidthTabs() {
                         {/* VECTOR INPUT */}
                         <Panel
                             titles={["Vector", "Class"]}
-                            data={data.vector}
+                            data={dataTrain.vector}
                         />
                         <Panel
                             titles={["Alfa", "Epoch", "Error"]}
-                            data={[[data.a, data.epoch, 0.004]]}
+                            data={[[dataTrain.a, dataTrain.epoch, 0.004]]}
                         />
                         <Panel
                             titles={["Bobot Akhir"]}
                             data={bobotAkhir}
                         />
-                        {/* <Button variant="contained" color="primary" style={{ width: '100%', textAlign: "center", border: '10px' }}>TRAIN</Button> */}
-
 
                     </TabPanel>
 
@@ -126,19 +132,24 @@ export default function FullWidthTabs() {
                     <TabPanel value={value} index={1} dir={theme.direction}>
                         <Panel
                             titles={["Vector", "Prediksi"]}
-                            data={[
-                                [[1, 1, 0, 0, 1, 0], 1],
-                                [[0, 1, 1, 0, 1, 0], 1],
-                                [[0, 0, 1, 0, 0, 1], 2],
-                                [[0, 0, 1, 1, 1, 0], 1],
-                                [[0, 1, 0, 0, 0, 1], 2],
-                                [[1, 0, 1, 0, 1, 1], 2],
-                                [[0, 0, 1, 1, 0, 0], 1],
-                                [[1, 1, 0, 1, 0, 0], 1],
-                                [[1, 0, 0, 1, 0, 1], 2],
-                                [[0, 1, 1, 1, 1, 1], 1],
-                            ]}
+                            data={dataTest}
                         />
+
+                        {/* Floating Action */}
+                        <div
+                            // onClick={setDisplayModal(displayModal === 'none' ? 'block' : 'none')}
+                            onClick={() => setDisplayModal('flex')}
+                            style={{
+                                color: 'white',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                borderRadius: 10,
+                                width: '100%',
+                                backgroundColor: '#00c5c538',
+                            }}>
+                            <h1>+</h1>
+                        </div>
                     </TabPanel>
                 </SwipeableViews>
             </AppBar>

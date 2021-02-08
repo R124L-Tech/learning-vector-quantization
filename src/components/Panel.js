@@ -67,24 +67,6 @@ const Panel = ({ titles, data }) => {
                         })}
                     </div>
                 ))}
-                {/* INPUT BUTTON */}
-                {/* {titles.includes("Vector") ?
-                    (<button
-                        style={{
-                            backgroundColor: 'transparent',
-                            border: 'none',
-                            color: 'white',
-                            // padding: '10px 5px 2px 5px',
-                            fontSize: 28,
-                            fontWeight: 50,
-                            outline: 'none',
-                            ...styles.center
-                        }}
-                        onClick={trainClicked}
-                    >
-                        <i class="fas fa-plus"></i>
-                    </button>)
-                    : ''} */}
             </div>
         </div >
     )
