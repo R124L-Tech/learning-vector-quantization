@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -64,7 +64,8 @@ export default function FullWidthTabs() {
         epoch: 10,
     }
 
-    const [dataTest, setDataTest] = useState(dataTrain.vector)
+    // const [dataTest, setDataTest] = useState(dataTrain.vector)
+    const [dataTest, setDataTest] = useState([])
 
     // const { classType, bobotAkhir, vectors, distances, targets, pred } = train(dataTrain.vector, dataTrain.a, dataTrain.epoch)
     const bobotAkhir = train(dataTrain.vector, dataTrain.a, dataTrain.epoch)
